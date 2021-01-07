@@ -1,0 +1,74 @@
+[
+  {
+    "name": "first-sa",
+    "owner_project_id": "product1-prod-a790",
+    "project_level_iam_bindings": [
+      {
+        "project_id": "product1-prod-b9f3",
+        "project_level_roles": [
+          "roles/accessapproval.approver",
+          "roles/aiplatform.viewer"
+        ]
+      },
+      {
+        "project_id": "product2-prod-6b26",
+        "project_level_roles": [
+          "roles/accessapproval.approver",
+          "roles/aiplatform.viewer"
+        ]
+      }
+    ],
+    "sa_level_self_iam_bindings": [
+      {
+        "role": "roles/iam.serviceAccountUser",
+        "members": [
+          "user:belser@elsersmusings.com",
+          "user:amanda.elser@elsersmusings.com"
+        ]
+      },
+      {
+        "role": "roles/iam.serviceAccountAdmin",
+        "members": [
+          "user:belser@elsersmusings.com",
+          "user:amanda.elser@elsersmusings.com"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "second-sa",
+    "owner_project_id": "product1-prod-a790",
+    "project_level_iam_bindings": [
+      {
+        "project_id": "product1-prod-b9f3",
+        "project_level_roles": [
+          "roles/accessapproval.approver",
+          "roles/aiplatform.viewer"
+        ]
+      },
+      {
+        "project_id": "product2-prod-6b26",
+        "project_level_roles": [
+          "roles/accessapproval.approver",
+          "roles/aiplatform.viewer"
+        ]
+      }
+    ],
+    "sa_level_self_iam_bindings": [
+      {
+        "role": "roles/iam.serviceAccountUser",
+        "members": [
+          "user:belser@elsersmusings.com",
+          "user:amanda.elser@elsersmusings.com"
+        ]
+      },
+      {
+        "role": "roles/iam.serviceAccountAdmin",
+        "members": [
+          "user:belser@elsersmusings.com",
+          "user:amanda.elser@elsersmusings.com"
+        ]
+      }
+    ]
+  }
+]
