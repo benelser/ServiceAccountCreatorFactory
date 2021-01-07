@@ -38,7 +38,7 @@ Remember, a service account is a identity and a resource. Above we created the S
 ]
 ```
 
-## Instantiate sa_creator_factory
+## Instantiate Service Account Creator Factory Module
 ```bash
 locals {
   raw_json = file("${path.module}/service_accounts.json")
@@ -48,7 +48,7 @@ locals {
 module "sa_creator_factory" {
     count = length(local.json)
     prefix = "elser-"
-    source = "./modules/sa_creator_factory"
+    source = "git@github.com:benelser/ServiceAccountCreatorFactory.git"
     service_account = local.json[count.index]
 }
 ```
