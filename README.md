@@ -1,7 +1,8 @@
 # Service Account Creator Factory 
-This module is used to create and manage the full life-cycle of service accounts from terraform. The assumption is that you will be creating service accounts in a "owner-project" then granting each service account permissions to other projects to include its owner project if you choose by defining a new binding "object" {} in json property "project_level_iam_bindings" which is an array that holds our "binding objects" {}. 
+This module is used to create and manage the full life-cycle of service accounts from terraform. The assumption is that you will be creating service accounts in a "owner-project" then granting each service account permissions to other projects to include its owner project if you choose by defining a new binding "object" {} in json property "project_level_iam_bindings" which is an array that holds our "binding objects" {}. The power comes when you start granting who has access to a Service Account as a resource which is done in the "sa_level_self_iam_bindings" property in our [json definition](./service_account_EXAMPLE.json). 
 
 ### Example of Service Account roles in which I want to apply at a project level
+This level is the the service account as an identity implementation
 
 ```json
 {
@@ -18,37 +19,46 @@ This module is used to create and manage the full life-cycle of service accounts
 Remember, a service account is a identity and a resource. Above we created the SA as a resource and granted permissions to that resource. As an identity we need to define new policies to declare WHO has permissions to ACTAS that service account "AS AN IDENTITY".
 
 ### Example of defining WHO can ACTAS the Service Account
+This is where the magic happens. Below is where we define who can do what with this service account as a Resource
 
 ```json
 "sa_level_self_iam_bindings": [
     {
-    "role": "roles/iam.serviceAccountUser",
-    "members": [
-        "user:belser@elsersmusings.com",
-        "user:amanda.elser@elsersmusings.com"
-    ]
+        "role": "roles/iam.serviceAccountUser",
+        "members": [
+            "user:belser@elsersmusings.com",
+        ]
     },
     {
-    "role": "roles/iam.serviceAccountAdmin",
-    "members": [
-        "user:belser@elsersmusings.com",
-        "user:amanda.elser@elsersmusings.com"
-    ]
+        "role": "roles/iam.serviceAccountAdmin",
+        "members": [
+            "user:belser@elsersmusings.com",
+        ]
+    },
+    {
+        "role": "roles/iam.serviceAccountTokenCreator",
+        "members": [
+            "user:belser@elsersmusings.com",
+        ]
     }
 ]
 ```
 
 ## Instantiate Service Account Creator Factory Module
 ```bash
+# List of all service accounts
 locals {
-  raw_json = file("${path.module}/service_accounts.json")
-  json = jsondecode(local.raw_json) # Serialize our json to terraform object
+  service_accounts  = fileset("${path.root}/serviceaccounts", "*")
 }
 
 module "sa_creator_factory" {
-    count = length(local.json)
-    prefix = "elser-"
-    source = "git@github.com:benelser/ServiceAccountCreatorFactory.git"
-    service_account = local.json[count.index]
+  for_each    = local.service_accounts
+  prefix = "elser-"
+  source = "git@github.com:benelser/ServiceAccountCreatorFactory.git"
+  service_account = jsondecode(file("${path.module}/serviceaccounts/${each.key}"))
 }
 ```
+
+## Consuming Project Example
+Make sure you create a folder named "serviceaccounts". This is where we will keep all of our service accounts
+![Consuming Project](./repo.png)

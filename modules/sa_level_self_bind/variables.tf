@@ -2,6 +2,8 @@ variable "service_account" {
     type = object({
         name = string
         owner_project_id = string
+        display_name = string
+        description = string
         project_level_iam_bindings = list(
             object({
                 project_id = string
@@ -13,6 +15,12 @@ variable "service_account" {
                 role = string
                 members = list(string)
         }))
+        org_level_iam_bindings = list(
+            object({
+                org_id = string
+                org_level_roles = list(string)
+            })
+        )
     })
 }
 
