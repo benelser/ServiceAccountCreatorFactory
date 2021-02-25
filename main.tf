@@ -18,10 +18,3 @@ module "sa_level_self_bind" {
     source = "./modules/sa_level_self_bind"
     service_account = var.service_account
 }
-module "sa_org_level_bind" {
-    count = length(var.service_account.org_level_iam_bindings)
-    counter = count.index
-    email = google_service_account.service_account.email
-    source = "./modules/sa_org_level_bind"
-    service_account = var.service_account
-}
