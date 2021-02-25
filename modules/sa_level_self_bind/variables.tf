@@ -15,12 +15,6 @@ variable "service_account" {
                 role = string
                 members = list(string)
         }))
-        org_level_iam_bindings = list(
-            object({
-                org_id = string
-                org_level_roles = list(string)
-            })
-        )
     })
 }
 
